@@ -1,5 +1,6 @@
 ## 安装
-搜索OOOC
+- 链接：[oooc](https://marketplace.visualstudio.com/items?itemName=hans0000.obsolete-ooc)
+- 直接在vscode插件面板搜索oooc
 
 ## 演示动图
 ![演示动图](oooc.gif)
