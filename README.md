@@ -3,7 +3,8 @@
 - 直接在vscode插件面板搜索oooc
 
 ## 演示动图
-![演示动图](oooc.gif)
+![演示动图opt](oooc.gif)
+![演示动图config](config.gif)
 
 ## 操作
 - 快捷键 ctrl+k ctrl+g

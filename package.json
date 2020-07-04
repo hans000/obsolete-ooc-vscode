@@ -2,7 +2,7 @@
 	"name": "obsolete-ooc",
 	"displayName": "OOOC",
 	"description": "新时代下无用的OOC生成器，兼容mcfunction文件",
-	"version": "0.2.3",
+	"version": "0.2.4",
 	"publisher": "hans0000",
 	"engines": {
 		"vscode": "^1.46.0"
