@@ -1,4 +1,30 @@
-# 使用文档
+## 安装
+搜索OOOC
+
+## 演示动图
+![演示动图](oooc.gif)
+
+## 操作
+- 快捷键 ctrl+k ctrl+g
+- ctrl+shift+p, 输入generate
+
+## 代码补全
+- init
+- rcb
+- ccb
+- icb
+- end
+
+## 设置
+- version 版本设置
+- size 生成大小设置
+- offset 偏移值设置
+
+## hover提示
+- 提醒用户注解设置含义
+
+## 高亮
+- 提醒用户注解设置影响的范围
 
 ``` 
 # 演示用例

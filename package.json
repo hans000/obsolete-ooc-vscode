@@ -2,7 +2,7 @@
 	"name": "obsolete-ooc",
 	"displayName": "OOOC",
 	"description": "新时代下无用的OOC生成器，兼容mcfunction文件",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"publisher": "hans0000",
 	"engines": {
 		"vscode": "^1.46.0"
@@ -48,8 +48,8 @@
 				},
 				"OOOC.env.size": {
 					"type": "string",
-					"description": "设置生成OOC的尺寸，格式<x> <z>",
-					"default": "4 4",
+					"description": "设置生成OOC的尺寸，格式正整数<x> <z>",
+					"default": "1 1",
 					"pattern": "^\\d+ \\d+$"
 				},
 				"OOOC.env.offset": {

@@ -7,6 +7,72 @@ import { parseConfig } from './lib/ooc/core';
 
 export function activate(context: ExtensionContext) {
 	const disposableList: Disposable[] = []
+	const activeEditor = vscode.window.activeTextEditor;
+	let decoration: vscode.TextEditorDecorationType;
+
+	function getLineText(line: number) {
+		return activeEditor.document.lineAt(line).text
+	}
+	function updateDecorations(position: Position, count: number) {
+		if (decoration) {
+			decoration.dispose()
+		}
+		let currLine = position.line + 1
+		decoration = window.createTextEditorDecorationType({
+			isWholeLine: true,
+			light: { backgroundColor: { id: 'editor.selectionHighlightBackground' } },
+			dark: { backgroundColor: { id: 'editor.selectionHighlightBackground' } },
+		})
+		const lineCount = activeEditor.document.lineCount
+		while (count !== 0) {
+			if (currLine === lineCount) {
+				break
+			}
+			const text = getLineText(currLine)
+			const match = text.match(/#\s*\[\s*(>*)\s*(rcb|ccb|icb|init|end)\s*(\*?)\s*(\d*)\s*\]/)
+			if (match) {
+				break
+			}
+			if (text.trimLeft() === '' || text.trimLeft().startsWith('#')) {
+				currLine++
+
+				continue
+			}
+			currLine++
+			count--
+		}
+		activeEditor.setDecorations(decoration, [new Range(
+			new Position(position.line, 0),
+			new Position(currLine - 1, 0),
+		)])
+	}
+
+	// hover
+	disposableList.push(languages.registerHoverProvider('mcfunction', {
+		provideHover: (document, position) => {
+			const text = document.lineAt(position.line).text
+			const match = text.match(/#\s*\[\s*(>*)\s*(rcb|ccb|icb|init|end)\s*(\*?)\s*(\d*)\s*\]/)
+			if (match) {
+				const count = match[4] ? +match[4] : -1;
+				try {
+					updateDecorations(position, count)
+					return {
+						range: new Range(
+							new Position(position.line, 0),
+							new Position(position.line, match[0].length)
+						),
+						contents: logicProvider(match),
+					}
+				} catch (error) {
+					console.log(error);
+				}
+			} else {
+				if (decoration) {
+					decoration.dispose()
+				}
+			}
+		}
+	}))
 
 	// generate
 	disposableList.push(commands.registerCommand('obsolete-ooc.generate', () => {
@@ -21,32 +87,6 @@ export function activate(context: ExtensionContext) {
 			window.showInformationMessage(error.message)
         }
 	}));
-
-	// hover
-	disposableList.push(languages.registerHoverProvider('mcfunction', {
-		provideHover: (document, position) => {
-			const text = document.lineAt(position.line).text
-			const match = text.match(/#\s*\[\s*(>*)\s*(rcb|ccb|icb|init|end)\s*(\*?)\s*(\d*)\s*\]/)
-			if (match) {
-				// window.activeTextEditor.setDecorations(window.createTextEditorDecorationType({
-				// 	isWholeLine: true,
-				// 	overviewRulerLane: 7
-				// }), [
-				// 	new Range(
-				// 		new Position(position.line + 1, 0), 
-				// 		new Position(position.line + 1, match[0].length)
-				// 	)
-				// ])
-				return {
-					range: new Range(
-						new Position(position.line, 0), 
-						new Position(position.line, match[0].length)
-					),
-					contents: logicProvider(match),
-				}
-			}
-		}
-	}))
 
 	context.subscriptions.push(...disposableList);
 }

@@ -46,11 +46,14 @@ export default function OOC(text: string, config: IConfig) {
             storage.push(token)
         }
     })
+    if (config.size.includes(0)) {
+        throw new Error('尺寸不可为0，请重新设置')
+    }
     const coors = createCoors(tokens.length, config.size, config.offset)
-    const x = config.offset[0]
+    const x = config.size[0]
     storage.forEach((item, index) => {
         const mod = index % x
-        if (config.size.join('') !== '00' && (mod === 0 || mod === x - 1) && item.extra.conditioned) {
+        if (config.size.every(e => e !== 1) && (mod === 0 || mod === x - 1) && item.extra.conditioned) {
             throw new Error(`拐角存在条件方块`)
         }
         const coor = coors[index]
