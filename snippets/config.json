@@ -1,14 +1,4 @@
 {
-    "ooc:config": {
-        "prefix": "config",
-        "description": "oooc的配置信息",
-        "body": [
-            "# [config]",
-            "# -version ${1:1.13}",
-            "# -size ${2:1 1}",
-            "# -offset ${3:0 0 0}"
-        ]
-    },
     "ooc:init": {
         "prefix": "init",
         "description": "预处理的指令，一般是积分版创建之类的",

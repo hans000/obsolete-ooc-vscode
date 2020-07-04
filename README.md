@@ -1,65 +1,51 @@
-# obsolete-ooc README
+# 使用文档
 
-This is the README for your extension "obsolete-ooc". After writing up a brief description, we recommend including the following sections.
+``` 
+# 演示用例
+# 名称OOOC，过时的OOC，功能一键命令方块生成器，软件免费
+# 使用注解的形式设置参数，因此兼容mcfuncion
+# by hans0000
+# ctrl + g生成ooc
 
-## Features
+# [config]
+#
+# 设置游戏版本，-version <版本号>（默认新版本）
+# OOC共三个版本差异1.9-1.10 1.11-1.12 1.13-1.6
+# -version 1.10
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+# 设置生成OOC的尺寸，-size <x> <z>
+# -size 1 1
 
-For example if there is an image subfolder under your extension project workspace:
+# -offset
+# 设置生成OOC距离触发方块的偏移值，-offset <x> <y> <z>
 
-\!\[feature X\]\(images/feature-x.png\)
+# init 预处理的指令，一般是积分版之类的
+# [init]
+scoreboard objectives add timer dummy
+scoreboard objectives setdisplay sidebar timer
+scoreboard players add @p timer 1
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+# > 代表命令方块的条件执行（默认无条件限制）
+# * 代表命令方块的红石触发（默认保持开启）
+# rcb 循环、ccb 连锁、icb 脉冲（默认连锁命令方块）
+# 数字 代表当前设置影响的行数，默认到下一个设置
 
-## Requirements
+# [rcb 1]
+execute as @p[scores={timer=..10}] run say 1
+execute as @p[scores={timer=..10}] run give @p stone
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+# [>ccb]
+scoreboard players add @p timer 1
+give @p diamond_sword
 
-## Extension Settings
+# [icb*1]
+scoreboard objectives remove timer
+clear @a
+# 
+# end OOC生成后处理的指令
+# [end]
+say thx!
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+# 软件还在开发阶段，如果有任何bug，请点击右上角的问题反馈
 
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+```

@@ -1,8 +1,9 @@
 {
 	"name": "obsolete-ooc",
-	"displayName": "obsolete-ooc",
+	"displayName": "OOOC",
 	"description": "新时代下无用的OOC生成器，兼容mcfunction文件",
-	"version": "0.1.1",
+	"version": "0.2.2",
+	"publisher": "hans0000",
 	"engines": {
 		"vscode": "^1.46.0"
 	},
@@ -11,6 +12,7 @@
 		"Other"
 	],
 	"activationEvents": [
+		"onLanguage:mcfunction",
 		"onCommand:obsolete-ooc.generate"
 	],
 	"main": "./out/extension.js",
@@ -34,7 +36,30 @@
                 "language": "mcfunction",
 				"path": "./snippets/config.json"
             }
-        ]
+		],
+		"configuration": {
+			"title": "OOOC",
+			"properties": {
+				"OOOC.env.version": {
+					"type": "string",
+					"enum": [ "1.9", "1.10", "1.11", "1.12", "1.13", "1.14", "1.15", "1.16" ],
+					"default": "1.16",
+					"description": "设置游戏版本，现共三个版本差异1.9-1.10 1.11-1.12 1.13-1.6"
+				},
+				"OOOC.env.size": {
+					"type": "string",
+					"description": "设置生成OOC的尺寸，格式<x> <z>",
+					"default": "4 4",
+					"pattern": "^\\d+ \\d+$"
+				},
+				"OOOC.env.offset": {
+					"type": "string",
+					"description": "设置生成OOC距离触发方块的偏移值，格式<x> <y> <z>",
+					"default": "2 0 0",
+					"pattern": "^(-?\\d+) (-?\\d+) (-?\\d+)$"
+				}
+			}
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

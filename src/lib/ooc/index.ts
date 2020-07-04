@@ -10,9 +10,9 @@ export type VectorType = 'local' | 'normal' | 'relative'
 
 
 export interface IConfig {
-    size?: [number, number];
-    offset?: [number, number, number];
-    version?: string
+    size: [number, number];
+    offset: [number, number, number];
+    version: string
 }
 
 export function getVersionRank(version: string) {
@@ -30,6 +30,5 @@ export function getVersionRank(version: string) {
         return 0
     }
 }
-
 
 export default OOC

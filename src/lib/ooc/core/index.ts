@@ -1,7 +1,7 @@
 import createCoors from "./createCoors";
 import CommandBlock from "./CommandBlock";
 import parse, { TextToken } from "./parse";
-import { getVersionRank } from "..";
+import { getVersionRank, IConfig } from "..";
 
 const head = [
     "summon FallingSand ~ ~1.5 ~ {Time:1,Block:\"minecraft:redstone_block\",Motion:[0d,-1d,0d],Passengers:[{id:FallingSand,Time:1,Block:\"minecraft:activator_rail\",Passengers:[{id:MinecartCommandBlock,Command:\"blockdata ~ ~-2 ~ {auto:0b,Command:\\\"\\\"}\"},",
@@ -21,14 +21,21 @@ const normal = [
     "{id:\"minecraft:command_block_minecart\",Command:\"${}\"},",
 ]
 
-export default function OOC(text: string) {
+export function parseConfig(text: any): IConfig {
+    const version = text.version
+    const size = text.size.split(/\W+/).map((e: string) => +e)
+    const offset = text.offset.split(/\s+/).map((e: string) => +e)
+    return { version, size, offset, }
+}
+
+export default function OOC(text: string, config: IConfig) {
     const storage: TextToken[] = [];
 
     let mid = ""
     let init = ""
     let end = ""
     
-    const { tokens, config } = parse(text)
+    const tokens = parse(text)
     const rank = getVersionRank(config.version)
     tokens.forEach(token => {
         if (token.type === 'init') {
@@ -40,7 +47,12 @@ export default function OOC(text: string) {
         }
     })
     const coors = createCoors(tokens.length, config.size, config.offset)
+    const x = config.offset[0]
     storage.forEach((item, index) => {
+        const mod = index % x
+        if (config.size.join('') !== '00' && (mod === 0 || mod === x - 1) && item.extra.conditioned) {
+            throw new Error(`拐角存在条件方块`)
+        }
         const coor = coors[index]
         const cmd = new CommandBlock({
             ...item.extra,
